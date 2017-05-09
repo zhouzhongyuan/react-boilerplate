@@ -2,10 +2,12 @@ import path from 'path';
 const config = {
     entry: path.resolve(__dirname, 'src/index.js'),
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'index.js',
+        path: path.resolve(__dirname, 'build'),
+        publicPath: "assets",
+        filename: 'bundle.js',
     },
     devtool: 'eval-source-map',
+    devServer: { inline: true },
     module: {
         loaders: [
             {
@@ -16,6 +18,13 @@ const config = {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
             },
+            {
+                test: /\.svg/,
+                use: {
+                    loader: 'svg-url-loader',
+                    options: {}
+                }
+            }
         ],
     },
     watch: true,
