@@ -5,6 +5,8 @@ import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-
 import IconButton from 'material-ui/IconButton';
 import CommentIcon from 'material-ui-icons/Audiotrack';
 import ListItemCustom from './ListItemCustom';
+import WordAudio from './WordAudio';
+
 
 const styleSheet = createStyleSheet('CheckboxList', theme => ({
     root: {
@@ -118,14 +120,13 @@ let wordList = {
     reminder: '提示',
     civilisation: '文明',
 };
-console.log(wordList.length);
 // wordList = {
 //     fresh: '新鲜的',
 // };
 class CheckboxList extends Component {
     constructor(props) {
         super(props);
-        // this.speak = this.speak.bind(this);
+        this.speak = this.speak.bind(this);
         this.state = {
             audio: '',
         };
@@ -144,7 +145,6 @@ class CheckboxList extends Component {
         const classes = this.props.classes;
         const allListItem = [];
         for (const [enWord, value] of Object.entries(wordList)) {
-            console.log(enWord);
             allListItem.push(
                 <ListItemCustom
                     enWord={enWord}
@@ -152,6 +152,7 @@ class CheckboxList extends Component {
                     hasChinese={this.props.hasChinese}
                     hasPhonetic={this.props.hasPhonetic}
                     hasSpeaker={this.props.hasSpeaker}
+                    speak={this.speak}
                 />,
             );
         }
@@ -160,15 +161,9 @@ class CheckboxList extends Component {
                 <List>
                     {allListItem}
                 </List>
-                <video
-                    width={0}
-                    height={0}
-                    controls=""
-                    name="media"
-                    autoPlay
-                >
-                    <source src={this.state.audio} type="audio/mpeg" />
-                </video>
+                <WordAudio
+                    audioSrc={this.state.audio}
+                />
             </div>
         );
     }

@@ -52,7 +52,7 @@ class ListItemCustom extends Component {
                 <ListItemSecondaryAction>
                     <IconButton
                         aria-label="Audiotrack"
-                        onClick={() => this.speak(this.props.enWord)}
+                        onClick={() => this.props.speak(this.props.enWord)}
                     >
                         <CommentIcon />
                     </IconButton>
