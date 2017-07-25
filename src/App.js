@@ -3,8 +3,40 @@ import logo from './logo.svg';
 import './App.css';
 import { MuiThemeProvider } from 'material-ui/styles';
 import List from './List';
+import Selection from './Selection';
+import { createMuiTheme } from 'material-ui/styles';
+
+const theme = createMuiTheme({
+    status: {
+        danger: 'orange',
+    },
+});
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.changeState = this.changeState.bind(this);
+        this.state = {
+            hasChinese: false,
+            hasPhonetic: false,
+            hasSpeaker: false,
+        };
+    }
+    changeState(key, value) {
+        console.log(key, value);
+        switch (key) {
+            case 'hasChinese':
+                this.setState({ hasChinese: value });
+                break;
+            case 'hasPhonetic':
+                this.setState({ hasPhonetic: value });
+                break;
+            case 'hasSpeaker':
+                this.setState({ hasSpeaker: value });
+                break;
+        }
+    }
     render() {
+        console.log(this.state);
         return (
             <div className="App">
                 <div className="App-header">
@@ -14,8 +46,23 @@ class App extends Component {
                 <p className="App-intro">
                     To get started, edit <code>src/App.js</code> and save to reload.
                 </p>
-                <MuiThemeProvider>
-                    <List />
+                <MuiThemeProvider
+                    theme={theme}
+                >
+                    <div>
+                        <Selection
+                            hasChinese={this.state.hasChinese}
+                            hasPhonetic={this.state.hasPhonetic}
+                            hasSpeaker={this.state.hasSpeaker}
+                            changeState={this.changeState}
+                        />
+                        <List
+                            hasChinese={this.state.hasChinese}
+                            hasPhonetic={this.state.hasPhonetic}
+                            hasSpeaker={this.state.hasSpeaker}
+                        />
+                    </div>
+
                 </MuiThemeProvider>
             </div>
         );

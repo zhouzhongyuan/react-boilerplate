@@ -1,20 +1,22 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {withStyles, createStyleSheet} from 'material-ui/styles';
-import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import CommentIcon from 'material-ui-icons/Audiotrack';
-import getPhonetic from './Phonetic/getPhonetic';
+import ListItemCustom from './ListItemCustom';
 
 const styleSheet = createStyleSheet('CheckboxList', theme => ({
     root: {
         width: '100%',
-        // maxWidth: 660,
+        maxWidth: 800,
+        marginLeft: 'auto',
+        marginRight: 'auto',
         background: theme.palette.background.paper,
     },
 }));
 
-var wordList = {
+let wordList = {
     fresh: '新鲜的',
     aquifer: '含水层',
     comb: '梳子,梳理',
@@ -116,9 +118,10 @@ var wordList = {
     reminder: '提示',
     civilisation: '文明',
 };
-wordList = {
-    fresh: '新鲜的'
-}
+console.log(wordList.length);
+// wordList = {
+//     fresh: '新鲜的',
+// };
 class CheckboxList extends Component {
     constructor(props) {
         super(props);
@@ -131,21 +134,6 @@ class CheckboxList extends Component {
         checked: [0],
     };
 
-    handleToggle = (event, value) => {
-        const {checked} = this.state;
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        this.setState({
-            checked: newChecked,
-        });
-    };
     speak(key) {
         console.log(key);
         this.setState({
@@ -155,24 +143,17 @@ class CheckboxList extends Component {
     render() {
         const classes = this.props.classes;
         const allListItem = [];
-        for (let [key, value] of Object.entries(wordList) ) {
-            const phonetic = getPhonetic(key);
-            console.log(phonetic);
-            const listItem =
-                <ListItem dense button key={key} onClick={event => this.handleToggle(event, value)}>
-                    <ListItemText primary={`${key}`} />
-                    <ListItemText primary={`${value}`} />
-                    <ListItemText primary={`${phonetic}`} />
-                    <ListItemSecondaryAction>
-                        <IconButton
-                            aria-label="Audiotrack"
-                            onClick={() => this.speak(key)}
-                        >
-                            <CommentIcon />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>;
-            allListItem.push(listItem);
+        for (const [enWord, value] of Object.entries(wordList)) {
+            console.log(enWord);
+            allListItem.push(
+                <ListItemCustom
+                    enWord={enWord}
+                    value={value}
+                    hasChinese={this.props.hasChinese}
+                    hasPhonetic={this.props.hasPhonetic}
+                    hasSpeaker={this.props.hasSpeaker}
+                />,
+            );
         }
         return (
             <div className={classes.root}>
