@@ -56,16 +56,6 @@ class Checkboxes extends Component {
                     }
                     label="音标"
                 />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={this.props.hasSpeaker}
-                            value="hasSpeaker"
-                            onChange={this.handleChange('hasSpeaker')}
-                        />
-                    }
-                    label="发音"
-                />
 
             </FormGroup>
         );
